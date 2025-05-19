@@ -1,17 +1,30 @@
 import Modal from "./modal/Modal.jsx";
-import styles from "../../styles/RestaurantDetailModal.module.css";
+import styled from 'styled-components';
 import { useRestaurantContext } from "../../context/RestaurantContext.jsx";
 
-export default function RestaurantDetailModal() {
+const RestaurantInfo = styled.div`
+    margin-bottom: 24px;
+`;
+
+const Description = styled.p`
+  display: -webkit-box;
+  padding-top: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+`;
+
+function RestaurantDetailModal() {
     const { restaurantItem, setModalState } = useRestaurantContext();
 
     return (
         <Modal title={restaurantItem.name} onClose={() => setModalState('list')} isButtonOpen>
-            <div className={`${styles["restaurant-info"]}`}>
-                <p className={`${styles["restaurant-info__description"]} text-body`}>
-                    {restaurantItem.description}
-                </p>
-            </div>
+            <RestaurantInfo>
+                <Description>{restaurantItem.description}</Description>
+            </RestaurantInfo>
         </Modal>
     );
 }
+
+export default RestaurantDetailModal;

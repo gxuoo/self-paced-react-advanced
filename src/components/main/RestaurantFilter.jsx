@@ -1,8 +1,28 @@
-import styles from "/src/styles/RestaurantFilter.module.css"
+import styled from "styled-components";
 import FilteredCategoryOptions from "../category/FilteredCategoryOptions";
-import { useRestaurantContext } from "../../context/RestaurantContext.jsx";
+import { useRestaurantContext } from '../../context/RestaurantContext.jsx';
 
-export default function RestaurantFilter() {
+const FilterContainer = styled.section`
+    display: flex;
+    justify-content: space-between;
+
+    padding: 0 16px;
+    margin-top: 24px;
+`;
+
+const SelectCategory = styled.select`
+    height: 44px;
+    min-width: 125px;
+
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    background: transparent;
+
+    font-size: 16px;
+    padding: 8px;
+`;
+
+function RestaurantFilter() {
     const { setSelectedCategory } = useRestaurantContext();
 
     const handleChange = (event) => {
@@ -10,11 +30,12 @@ export default function RestaurantFilter() {
     }
 
     return (
-        <section className={`${styles["restaurant-filter-container"]}`}>
-            <select name="category" id="category-filter" className={`${styles["restaurant-filter"]}`}
-                aria-label="음식점 카테고리 필터" onChange={handleChange}>
+        <FilterContainer>
+            <SelectCategory name="category" id="category-filter" aria-label="음식점 카테고리 필터" onChange={handleChange}>
                 <FilteredCategoryOptions excludedCategories={"선택해 주세요"} />
-            </select>
-        </section>
+            </SelectCategory>
+        </FilterContainer>
     );
-}
+};
+
+export default RestaurantFilter;

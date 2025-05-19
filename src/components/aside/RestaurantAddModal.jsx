@@ -1,5 +1,5 @@
 import Modal from "./modal/Modal.jsx";
-import styles from "/src/styles/RestaurantAddModal.module.css";
+import styled from 'styled-components';
 import RestaurantCategory from "../category/FilteredCategoryOptions";
 import { useRestaurantContext } from "../../context/RestaurantContext.jsx";
 
@@ -12,11 +12,56 @@ const CATEGORY_MAP = {
     etc: "기타",
 };
 
-function generateId() {
-    return `${Date.now()}-${Math.floor(Math.random() * 100000)}`;
-}
+const FormItem = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 36px;
+`;
 
-export default function RestaurantAddModal() {
+const Label = styled.label`
+    color: var(--grey-400);
+    font-size: 14px;
+
+    &::after{
+        content: ${({ required }) => (required ? "'*'" : 'none')};
+        padding-left: 4px;
+        color: var(--primary-color);
+    }
+`;
+
+const HelpText = styled.span`
+  color: var(--grey-300);
+`;
+
+const Input = styled.input`
+  padding: 8px;
+  margin: 6px 0;
+  border: 1px solid var(--grey-200);
+  border-radius: 8px;
+  font-size: 16px;
+  height: ${({ type }) => (type === 'text' ? '44px' : 'auto')};
+`;
+
+const TextArea = styled.textarea`
+  padding: 8px;
+  margin: 6px 0;
+  border: 1px solid var(--grey-200);
+  border-radius: 8px;
+  font-size: 16px;
+  resize: none;
+`;
+
+const SelectCategory = styled.select`
+  padding: 8px;
+  margin: 6px 0;
+  height: 44px;
+  border: 1px solid var(--grey-200);
+  border-radius: 8px;
+  font-size: 16px;
+  color: var(--grey-300);
+`;
+
+function RestaurantAddModal() {
     const {
         setModalState,
         getRestaurants
@@ -25,7 +70,7 @@ export default function RestaurantAddModal() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const id = generateId();
+        const id = crypto.randomUUID();
         const category = e.target.category.value;
         const alt = CATEGORY_MAP[category];
         const icon = `/assets/images/category/category-${category}.png`;
@@ -67,25 +112,25 @@ export default function RestaurantAddModal() {
 
     return (
         <Modal title="새로운 음식점" onClose={() => setModalState('list')} onSubmit={handleSubmit}>
-            <div className={`${styles["form-item"]} ${styles["form-item--required"]}`}>
-                <label htmlFor="category" className="text-caption">카테고리</label>
-                <select name="category" id="category" required>
-                    <RestaurantCategory excludedCategories={"전체"} />
-                </select>
-            </div>
+            <FormItem>
+                <Label htmlFor="category" required>카테고리</Label>
+                <SelectCategory name="category" id="category" required>
+                    <RestaurantCategory excludedCategories={'전체'} />
+                </SelectCategory>
+            </FormItem>
 
-            <div className={`${styles["form-item"]} ${styles["form-item--required"]}`}>
-                <label htmlFor="name" className="text-caption">이름</label>
-                <input type="text" name="name" id="name" required />
-            </div>
+            <FormItem>
+                <Label htmlFor="name" required>이름</Label>
+                <Input type="text" name="name" id="name" required />
+            </FormItem>
 
-            <div className={styles["form-item"]}>
-                <label htmlFor="description" className="text-caption">설명</label>
-                <textarea name="description" id="description" cols="30" rows="5" />
-                <span className={`${styles["help-text"]} text-caption`}>
-                    메뉴 등 추가 정보를 입력해 주세요.
-                </span>
-            </div>
+            <FormItem>
+                <Label htmlFor="description">설명</Label>
+                <TextArea name="description" id="description" cols="30" rows="5" />
+                <HelpText>메뉴 등 추가 정보를 입력해 주세요.</HelpText>
+            </FormItem>
         </Modal>
     );
 }
+
+export default RestaurantAddModal;

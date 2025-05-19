@@ -1,15 +1,15 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from 'react';
 
 const RestaurantContext = createContext();
 
 export function RestaurantProvider({ children }) {
     const [restaurants, setRestaurants] = useState([]);
     const [restaurantItem, setRestaurantItem] = useState({
-        name: "",
-        description: ""
+        name: '',
+        description: ''
     });
     const [modalState, setModalState] = useState('list');   // detail, add, list 3가지로 관리
-    const [selectedCategory, setSelectedCategory] = useState("all");
+    const [selectedCategory, setSelectedCategory] = useState('all');
 
     const getRestaurants = async () => {
         try {

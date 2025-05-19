@@ -1,4 +1,7 @@
-* {
+import { createGlobalStyle } from 'styled-components';
+
+const Globalstyle = createGlobalStyle`
+  * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -25,30 +28,33 @@
     --grey-400: #344054;
     --grey-500: #000000;
   }
-  
-  /* Typography *************************************/
-  .text-title {
+
+  h1,
+  h2 {
     font-size: 20px;
     line-height: 24px;
     font-weight: 600;
   }
-  
-  .text-subtitle {
+
+  h3{
     font-size: 18px;
     line-height: 28px;
     font-weight: 600;
   }
-  
-  .text-body {
+
+  p {
     font-size: 16px;
     line-height: 24px;
     font-weight: 400;
   }
-  
-  .text-caption {
+
+  label, 
+  span,
+  button {
     font-size: 14px;
     line-height: 20px;
     font-weight: 400;
   }
-  
-  
+`;
+
+export default Globalstyle;
